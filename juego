@@ -1,0 +1,105 @@
+public class CAI {
+public static void main(String[] args) {
+Scanner scanner = new Scanner(System.in);
+// Obtener nivel de dificultad y tipo de problema
+int difficultyLevel = getDifficultyLevel(scanner);
+int problemType = getProblemType(scanner);
+int correctAnswers = 0;
+int totalQuestions = 0;
+while (correctAnswers < 10) {
+int num1 = generateNumber(difficultyLevel);
+int num2 = generateNumber(difficultyLevel);
+String operator = getOperator(problemType);
+int correctAnswer = getCorrectAnswer(num1, num2, operator);
+askQuestion(num1, num2, operator);
+int userAnswer = scanner.nextInt();
+while (userAnswer != correctAnswer) {
+displayIncorrectResponse();
+userAnswer = scanner.nextInt();
+}
+displayCorrectResponse();
+correctAnswers++;
+totalQuestions++;
+}
+double percentageCorrect = (correctAnswers / (double) 
+totalQuestions) * 100;
+if (percentageCorrect < 75) {
+System.out.println("Por favor pide ayuda adicional a tu 
+instructor.");
+} else {
+System.out.println("¡Felicidades, estás listo para pasar al 
+siguiente nivel!");
+}
+}
+public static int getDifficultyLevel(Scanner scanner) {
+System.out.println("Elige el nivel de dificultad:");
+System.out.println("1. Números de un dígito");
+System.out.println("2. Números de dos dígitos");
+System.out.print("Opción: ");
+return scanner.nextInt();
+}
+public static int getProblemType(Scanner scanner) {
+System.out.println("Elige el tipo de problema:");
+System.out.println("1. Suma");
+System.out.println("2. Resta");
+System.out.println("3. Multiplicación");
+System.out.println("4. División");
+System.out.println("5. Mezcla aleatoria");
+System.out.print("Opción: ");
+return scanner.nextInt();
+}
+public static int generateNumber(int difficultyLevel) {
+SecureRandom random = new SecureRandom();
+int maxNumber = (int) Math.pow(10, difficultyLevel);
+return random.nextInt(maxNumber);
+}
+public static String getOperator(int problemType) {
+switch (problemType) {
+case 1:
+return "+";
+case 2:
+return "-";
+case 3:
+return "*";
+case 4:
+return "/";
+case 5:
+SecureRandom random = new SecureRandom();
+int operatorIndex = random.nextInt(4) + 1; // Generar un 
+número aleatorio entre 1 y 4
+return getOperator(operatorIndex);
+default:
+return "+"; // Si el tipo de problema es inválido, se 
+utilizará la suma por defecto
+}
+}
+public static int getCorrectAnswer(int num1, int num2, String
+operator) {
+switch (operator) {
+case "+":
+return num1 + num2;
+case "-":
+return num1 - num2;
+case "*":
+return num1 * num2;
+case "/":
+return num1 / num2;
+default:
+return 0; // Si el operador es inválido, se devuelve 0
+}
+}
+public static void askQuestion(int num1, int num2, String operator) {
+System.out.printf("¿Cuánto es %d %s %d? ", num1, operator, num2);
+}
+public static void displayCorrectResponse() {
+String[] responses = {"¡Muy bien!", "¡Excelente!", "¡Buen 
+trabajo!", "¡Sigue así!"};
+int randomIndex = new SecureRandom().nextInt(responses.length);
+System.out.println(responses[randomIndex]);
+}
+public static void displayIncorrectResponse() {
+String[] responses = {"No. Por favor intenta de nuevo.",
+"Incorrecto. Intenta una vez más.", "¡No te rindas!", "No. Sigue 
+intentando."};
+int randomIndex = new SecureRandom().nextInt(responses.length);
+System.out.println(responses[randomIndex])
